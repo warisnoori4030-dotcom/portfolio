@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Responsive viewport: scales layout to fit any device width -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="NOORI WARIS — Engineering student at Beijing Institute of Technology. Portfolio, skills, and projects." />
+  <title>NOORI WARIS — Engineering Portfolio</title>
+
+  <!-- Google Fonts: Inter for body text, JetBrains Mono for technical/label text -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Scroll progress bar: thin accent line at top that fills as you scroll -->
+  <div class="scroll-progress" id="scrollProgress"></div>
+
+  <!-- Fixed geometric grid overlay: subtle blueprint-style background texture -->
+  <div class="grid-overlay" aria-hidden="true"></div>
+
+  <!-- ============ NAVIGATION ============ -->
+  <header class="nav" id="nav">
+    <a href="#hero" class="nav__brand">
+      <!-- Monogram logo: initials in a geometric square -->
+      <span class="nav__mark">NW</span>
+      <span class="nav__name">NOORI WARIS</span>
+    </a>
+
+    <!-- Desktop nav links -->
+    <nav class="nav__links" id="navLinks">
+      <a href="#about" class="nav__link">About</a>
+      <a href="#skills" class="nav__link">Skills</a>
+      <a href="#projects" class="nav__link">Projects</a>
+      <a href="#contact" class="nav__link">Contact</a>
+    </nav>
+
+    <!-- Mobile menu toggle button (hamburger) -->
+    <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <main>
+
+    <!-- ============ HERO / HEADER SECTION ============ -->
+    <section class="hero" id="hero">
+      <!-- Technical coordinate label, top-left of hero -->
+      <div class="hero__coord reveal">N 39°54′ · E 116°23′ — BEIJING</div>
+
+      <div class="hero__inner">
+        <div class="hero__text">
+          <!-- Eyebrow label in monospace -->
+          <p class="hero__eyebrow reveal">// ENGINEERING PORTFOLIO</p>
+          <!-- Main name headline -->
+          <h1 class="hero__title reveal">
+            NOORI<br /><span class="hero__title-accent">WARIS</span>
+          </h1>
+          <!-- Subtitle: major + university -->
+          <p class="hero__sub reveal">
+            Engineering · Beijing Institute of Technology
+          </p>
+          <!-- Call-to-action buttons -->
+          <div class="hero__actions reveal">
+            <a href="#projects" class="btn btn--primary">View Work</a>
+            <a href="#contact" class="btn btn--ghost">Get in Touch</a>
+          </div>
+        </div>
+
+        <!-- Profile picture placeholder: geometric framed avatar.
+             Replace the inner <span> with an <img> when a photo is ready. -->
+        <div class="hero__avatar reveal">
+          <div class="avatar__frame">
+            <span class="avatar__initials">NW</span>
+            <!-- Decorative blueprint corner ticks -->
+            <span class="avatar__tick avatar__tick--tl"></span>
+            <span class="avatar__tick avatar__tick--tr"></span>
+            <span class="avatar__tick avatar__tick--bl"></span>
+            <span class="avatar__tick avatar__tick--br"></span>
+          </div>
+          <p class="avatar__caption">FIG. 01 — PROFILE</p>
+        </div>
+      </div>
+
+      <!-- Scroll cue at bottom of hero -->
+      <div class="hero__scrollcue reveal">
+        <span>SCROLL</span>
+        <span class="hero__scrollline"></span>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ME ============ -->
+    <section class="section" id="about">
+      <!-- Section header with technical numbering -->
+      <div class="section__head reveal">
+        <span class="section__num">01</span>
+        <h2 class="section__title">About Me</h2>
+        <span class="section__rule"></span>
+      </div>
+
+      <div class="about__grid">
+        <div class="about__bio reveal">
+          <p>
+            I'm an <strong>Engineering</strong> student at the
+            <strong>Beijing Institute of Technology</strong>, driven by a
+            fascination with how structured thinking and data turn messy
+            real-world problems into clean, workable solutions.
+          </p>
+          <p>
+            My work sits at the intersection of analytical rigor and practical
+            build-out — from modeling and data analysis to managing projects
+            end-to-end. I care about precision, reproducibility, and the small
+            details that make a system reliable rather than merely functional.
+          </p>
+          <p>
+            Outside the lab, you'll find me behind a camera lens or on the
+            football pitch — both, in their own way, exercises in timing,
+            composition, and reading the field.
+          </p>
+        </div>
+
+        <!-- Quick facts panel: structured key-value list -->
+        <aside class="about__facts reveal">
+          <div class="fact"><span class="fact__k">Field</span><span class="fact__v">Engineering</span></div>
+          <div class="fact"><span class="fact__k">University</span><span class="fact__v">BIT, Beijing</span></div>
+          <div class="fact"><span class="fact__k">Focus</span><span class="fact__v">Data & Systems</span></div>
+          <div class="fact"><span class="fact__k">Interests</span><span class="fact__v">Photography · Football</span></div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ SKILLS ============ -->
+    <section class="section" id="skills">
+      <div class="section__head reveal">
+        <span class="section__num">02</span>
+        <h2 class="section__title">Skills</h2>
+        <span class="section__rule"></span>
+      </div>
+
+      <!-- Skills grid: each card has an SVG icon, name, and a segmented
+           proficiency bar (engineering gauge style). -->
+      <div class="skills__grid">
+        <article class="skill reveal">
+          <div class="skill__icon">
+            <!-- Python icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6a3 3 0 0 1 3 3v4H9a3 3 0 0 0-3 3v3"/><path d="M15 21H9a3 3 0 0 1-3-3v-4h9a3 3 0 0 0 3-3V8"/><circle cx="9.5" cy="6.5" r="0.75" fill="currentColor"/><circle cx="14.5" cy="17.5" r="0.75" fill="currentColor"/></svg>
+          </div>
+          <h3 class="skill__name">Python</h3>
+          <p class="skill__desc">Scripting, automation & data pipelines</p>
+          <div class="gauge" data-level="5"></div>
+        </article>
+
+        <article class="skill reveal">
+          <div class="skill__icon">
+            <!-- Data analysis: bar chart icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>
+          </div>
+          <h3 class="skill__name">Data Analysis</h3>
+          <p class="skill__desc">Statistics, visualization & insight synthesis</p>
+          <div class="gauge" data-level="5"></div>
+        </article>
+
+        <article class="skill reveal">
+          <div class="skill__icon">
+            <!-- Project management: checklist icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 10l2 2 4-4M8 17l2 2 4-4"/></svg>
+          </div>
+          <h3 class="skill__name">Project Management</h3>
+          <p class="skill__desc">Planning, coordination & delivery</p>
+          <div class="gauge" data-level="4"></div>
+        </article>
+
+        <article class="skill reveal">
+          <div class="skill__icon">
+            <!-- Engineering design: compass/ruler icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M7.5 7.5l9 9M16.5 7.5l-9 9"/></svg>
+          </div>
+          <h3 class="skill__name">Engineering Design</h3>
+          <p class="skill__desc">CAD, modeling & structured problem-solving</p>
+          <div class="gauge" data-level="4"></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ PROJECTS ============ -->
+    <section class="section" id="projects">
+      <div class="section__head reveal">
+        <span class="section__num">03</span>
+        <h2 class="section__title">Projects</h2>
+        <span class="section__rule"></span>
+      </div>
+
+      <!-- Project cards: hover lifts the card and draws the accent border -->
+      <div class="projects__grid">
+        <article class="project reveal">
+          <div class="project__top">
+            <span class="project__tag">DATA</span>
+            <span class="project__idx">P-01</span>
+          </div>
+          <h3 class="project__title">Urban Traffic Flow Analysis</h3>
+          <p class="project__desc">
+            Built a Python pipeline ingesting Beijing traffic sensor data to
+            identify congestion hotspots and model signal-timing improvements,
+            cutting simulated average delay by 18%.
+          </p>
+          <div class="project__stack">
+            <span>Python</span><span>Pandas</span><span>Matplotlib</span>
+          </div>
+        </article>
+
+        <article class="project reveal">
+          <div class="project__top">
+            <span class="project__tag">ENGINEERING</span>
+            <span class="project__idx">P-02</span>
+          </div>
+          <h3 class="project__title">Structural Load Simulator</h3>
+          <p class="project__desc">
+            A CAD-integrated tool that computes stress distribution across beam
+            geometries under variable loads, with an interactive visualization
+            of failure thresholds.
+          </p>
+          <div class="project__stack">
+            <span>MATLAB</span><span>CAD</span><span>Simulation</span>
+          </div>
+        </article>
+
+        <article class="project reveal">
+          <div class="project__top">
+            <span class="project__tag">PM</span>
+            <span class="project__idx">P-03</span>
+          </div>
+          <h3 class="project__title">Campus Sustainability Audit</h3>
+          <p class="project__desc">
+            Led a cross-team project auditing energy use across campus buildings,
+            delivering a prioritized retrofit roadmap and a dashboard for
+            ongoing tracking.
+          </p>
+          <div class="project__stack">
+            <span>Project Mgmt</span><span>Analytics</span><span>Reporting</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="section" id="contact">
+      <div class="section__head reveal">
+        <span class="section__num">04</span>
+        <h2 class="section__title">Contact</h2>
+        <span class="section__rule"></span>
+      </div>
+
+      <div class="contact__wrap reveal">
+        <p class="contact__lead">
+          Open to internships, research collaborations, and good conversations
+          about engineering and data. Let's talk.
+        </p>
+        <div class="contact__links">
+          <!-- Email link: replace with your real address -->
+          <a href="mailto:noori.waris@example.com" class="contact__link">
+            <span class="contact__link-label">EMAIL</span>
+            <span class="contact__link-value">noori.waris@example.com</span>
+          </a>
+          <!-- LinkedIn link: replace with your real profile URL -->
+          <a href="https://www.linkedin.com/in/noori-waris" target="_blank" rel="noopener" class="contact__link">
+            <span class="contact__link-label">LINKEDIN</span>
+            <span class="contact__link-value">/in/noori-waris</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <span>© <span id="year"></span> NOORI WARIS</span>
+    <span class="footer__sep">·</span>
+    <span>Designed & built with precision</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
