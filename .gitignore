@@ -1,0 +1,12 @@
+# Tool / editor folders (not part of the website)
+.agents/
+.claude/
+.codeartsdoer/
+.tmp-gallery-skill/
+skills/
+skills-lock.json
+.vscode/
+
+# OS files
+Thumbs.db
+.DS_Store

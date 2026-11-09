@@ -1,99 +1,118 @@
 /* ============================================================
    NOORI WARIS — Portfolio interactions
-   Handles: mobile menu, scroll progress, nav scroll state,
-   scroll-reveal animations, active-section highlighting,
-   and skill gauge rendering.
+   1. Mobile menu
+   2. Scroll progress bar + nav background on scroll
+   3. Staggered scroll-reveal animations
+   4. Active-section highlighting in the nav
+   5. Footer year
    ============================================================ */
 
 (function () {
   'use strict';
 
-  /* ---------- 1. Mobile menu toggle ---------- */
+  var nav = document.getElementById('nav');
   var toggle = document.getElementById('navToggle');
   var links = document.getElementById('navLinks');
+  var progress = document.getElementById('scrollProgress');
+
+  /* ---------- 1. Mobile menu ---------- */
+  function setMenu(open) {
+    links.classList.toggle('open', open);
+    toggle.classList.toggle('open', open);
+    nav.classList.toggle('menu-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  }
 
   toggle.addEventListener('click', function () {
-    var open = links.classList.toggle('open');
-    toggle.classList.toggle('open', open);
-    toggle.setAttribute('aria-expanded', String(open));
+    setMenu(!links.classList.contains('open'));
   });
 
-  // Close menu when a link is tapped (mobile)
+  // Close after choosing a link, on Escape, or when resizing up to desktop
   links.querySelectorAll('a').forEach(function (a) {
-    a.addEventListener('click', function () {
-      links.classList.remove('open');
-      toggle.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-    });
+    a.addEventListener('click', function () { setMenu(false); });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && links.classList.contains('open')) {
+      setMenu(false);
+      toggle.focus();
+    }
+  });
+  window.matchMedia('(min-width: 761px)').addEventListener('change', function (mq) {
+    if (mq.matches) setMenu(false);
   });
 
-  /* ---------- 2. Scroll progress bar + nav scrolled state ---------- */
-  var progress = document.getElementById('scrollProgress');
-  var nav = document.getElementById('nav');
-
+  /* ---------- 2. Scroll progress + nav state ---------- */
+  var ticking = false;
   function onScroll() {
-    var docH = document.documentElement.scrollHeight - window.innerHeight;
-    var pct = docH > 0 ? (window.scrollY / docH) * 100 : 0;
-    progress.style.width = pct + '%';
-    // Add solid background to nav once scrolled past threshold
-    nav.classList.toggle('scrolled', window.scrollY > 30);
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var ratio = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+    progress.style.transform = 'scaleX(' + ratio + ')';
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+    ticking = false;
   }
-  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('scroll', function () {
+    if (!ticking) { window.requestAnimationFrame(onScroll); ticking = true; }
+  }, { passive: true });
   onScroll();
 
-  /* ---------- 3. Scroll-reveal via IntersectionObserver ----------
-     Adds .in to .reveal elements when they enter the viewport,
-     producing the fade-up animation defined in CSS. */
+  /* ---------- 3. Scroll reveal (staggered) ----------
+     Siblings that reveal together get a small incremental delay
+     so cards in a grid cascade in rather than appearing at once. */
   var revealEls = document.querySelectorAll('.reveal');
 
+  revealEls.forEach(function (el) {
+    var siblings = Array.prototype.filter.call(el.parentElement.children, function (c) {
+      return c.classList.contains('reveal');
+    });
+    el.style.setProperty('--d', (siblings.indexOf(el) * 90) + 'ms');
+  });
+
   if ('IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (entries) {
+    var revealObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
-          // Stagger siblings slightly for a cascading feel
           entry.target.classList.add('in');
-          io.unobserve(entry.target);
+          revealObserver.unobserve(entry.target);
         }
       });
     }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
 
-    revealEls.forEach(function (el) { io.observe(el); });
+    revealEls.forEach(function (el) { revealObserver.observe(el); });
   } else {
-    // Fallback: just show everything
     revealEls.forEach(function (el) { el.classList.add('in'); });
   }
 
-  /* ---------- 4. Active section highlighting in nav ---------- */
-  var sections = document.querySelectorAll('main section[id]');
+  /* ---------- 4. Active section in nav ----------
+     A section counts as "current" when it crosses the middle band
+     of the viewport, which works for both short and tall sections. */
   var navLinkMap = {};
-  links.querySelectorAll('a').forEach(function (a) {
+  links.querySelectorAll('a[href^="#"]').forEach(function (a) {
     navLinkMap[a.getAttribute('href').slice(1)] = a;
   });
 
-  var sectionObserver = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        var id = entry.target.id;
-        Object.keys(navLinkMap).forEach(function (key) {
-          navLinkMap[key].classList.toggle('active', key === id);
-        });
-      }
+  function setActive(id) {
+    Object.keys(navLinkMap).forEach(function (key) {
+      var isActive = key === id;
+      navLinkMap[key].classList.toggle('active', isActive);
+      if (isActive) navLinkMap[key].setAttribute('aria-current', 'true');
+      else navLinkMap[key].removeAttribute('aria-current');
     });
-  }, { threshold: 0.5 });
+  }
 
-  sections.forEach(function (s) { sectionObserver.observe(s); });
+  if ('IntersectionObserver' in window) {
+    var sectionObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) setActive(entry.target.id);
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
 
-  /* ---------- 5. Render skill proficiency gauges ----------
-     Each .gauge has data-level (1-5); we fill that many cells. */
-  document.querySelectorAll('.gauge').forEach(function (g) {
-    var level = parseInt(g.getAttribute('data-level'), 10) || 0;
-    for (var i = 0; i < 5; i++) {
-      var cell = document.createElement('span');
-      if (i < level) cell.classList.add('on');
-      g.appendChild(cell);
-    }
-  });
+    document.querySelectorAll('main section[id]').forEach(function (s) {
+      sectionObserver.observe(s);
+    });
+  }
 
-  /* ---------- 6. Footer year ---------- */
-  document.getElementById('year').textContent = new Date().getFullYear();
+  /* ---------- 5. Footer year ---------- */
+  var year = document.getElementById('year');
+  if (year) year.textContent = new Date().getFullYear();
 })();
